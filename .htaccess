@@ -1,0 +1,28 @@
+Options -Indexes
+
+Options FollowSymlinks
+RewriteEngine on
+
+#RewriteCond %{REQUEST_URI} /(uploads)
+#RewriteRule ^uploads/(.*)$ uploads/$1 [L]
+
+
+# kerak bo`lib qolishi mumkin, brauzerda slash ( ' / ' ) qo`ygan searchga o`tib ketsa
+#RewriteCond %{REQUEST_URI} !^
+
+# Бэкенд
+RewriteCond %{REQUEST_URI} ^/adminka/$
+RewriteRule ^(adminka)/$ /$1 [R=301,L]
+RewriteCond %{REQUEST_URI} ^/adminka
+RewriteRule ^adminka(/.+)?$ /backend/web/$1 [L,PT]
+# Фронтенд
+RewriteCond %{REQUEST_URI} ^.*$
+RewriteRule ^(.*)$ /frontend/web/$1
+
+# Если api запрос
+#RewriteCond %{REQUEST_URI} ^/(api)
+#RewriteRule ^api(/.*)?$ api/web/$1 [L]
+
+# Если запрос начинается с /api, то заменяем на /api/web/
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^.*$ /api/web/$1
